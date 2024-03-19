@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.18)
+
+project(rawproto
+  DESCRIPTION "Raw proto to JSON"
+  HOMEPAGE_URL "https://github.com/konsumer/rawprotoparser"
+  VERSION 0.0.1
+  LANGUAGES CXX
+)
+
+if (NOT EMSCRIPTEN)
+  message(FATAL_ERROR "rawproto is meant to be compiled in emscripten.")
+endif()
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ASSERTIONS=2 --memory-init-file 0 -s ALLOW_MEMORY_GROWTH=1")
+set(CMAKE_CXX_STANDARD 17 CACHE STRING "v")
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+include_directories(${CMAKE_SOURCE_DIR}/prot/include)
+link_directories(${CMAKE_SOURCE_DIR}/prot/lib)
+add_executable(${PROJECT_NAME} src/main.cc)
+
